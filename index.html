@@ -59,14 +59,133 @@
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
       let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
+      // let firstNum = document.querySelector('#first-num').value;
+      let firstNum = 'a';
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err) {
+        console.error(err);
+        if (!Number.isInteger(firstNum)) {
+          throw new Error("Inputs must be valid integers!");
+        }
+      } finally {
+        console.log('Done!');
+      }
     });
+
+    class InputError extends Error {
+      constructor(message) {
+        super(message);
+        message = "InputError"
+      }
+    }    
+    
+    function checkInput() {
+      throw new InputError("Wshoops!");
+    }
+
+    try {
+      checkInput();
+    } catch(err) {
+      console.error(err.message);
+      console.error(err.name);
+    }
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+    
+    // console log button
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Console Log Demo');
+    });
+
+    // console error button
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console Error Demo');
+    });
+
+    // console dir button
+    errorBtns[2].addEventListener('click', () => {
+      console.dir(errorBtns[2]);
+    });
+
+    // console dirxml button
+    errorBtns[3].addEventListener('click', () => {
+      console.dirxml(document.body);
+    });
+
+    // console group button
+    errorBtns[4].addEventListener('click', () => {
+      console.group('Console Group');
+    });
+
+    // console groupEnd button
+    errorBtns[5].addEventListener('click', () => {
+      console.groupEnd('Console Group');
+    });
+
+    // console table button
+    errorBtns[6].addEventListener('click', () => {
+      console.table([
+        {
+          name: "Disneyland",
+          location: "Anaheim, California",
+        },
+        {
+          name: "Knott's Berry Farm",
+          location: "Buena Park, California",
+        },
+        {
+          name: "Magic Kingdom",
+          location: "Bay Lake, Florida",
+        }
+      ]);
+    });
+
+    // timer start button
+    errorBtns[7].addEventListener('click', () => {
+      console.log('Timer started!');
+      console.time('Runtime');
+    });
+
+    // timer end button
+    errorBtns[8].addEventListener('click', () => {
+      console.log('Timer ended!');
+      console.timeEnd('Runtime');
+    });
+
+    // console trace button
+    errorBtns[9].addEventListener('click', () => {
+      const deepest = () => { deeper(); };
+      const deeper = () => { deep(); };
+      const deep = () => { traceTest(); };
+      const traceTest = () => { console.trace(); };
+      deepest();
+    });
+
+    // global error button
+    errorBtns[10].addEventListener('click', () => {
+      try {
+        badCode();
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    window.onerror = function(message, source, lineno, colno, error) { 
+      console.log('An error occurred!!!!!');
+     };
+  </script>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "0c28a8eb5c624dff991b5411a1ebb25c"
+      // for more configuration options, see https://docs.trackjs.com
+    });
   </script>
 </body>
 </html>
