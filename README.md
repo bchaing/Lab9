@@ -2,4 +2,4 @@
 
 Author: Brandon Chaing
 
-GitHub Pages Link:
+GitHub Pages Link: https://bchaing.github.io/Lab9/
